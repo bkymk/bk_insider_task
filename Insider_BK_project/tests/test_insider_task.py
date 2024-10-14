@@ -1,14 +1,11 @@
 import time
 import pytest
-from selenium.webdriver.ie.webdriver import WebDriver
-from selenium.webdriver.support.expected_conditions import url_contains
-from selenium.webdriver.support.wait import WebDriverWait
 
-from page_objects.careers.careers_page import CareersPage
-from page_objects.careers.open_positions.open_positions_page import OpenPositionsPage
-from page_objects.careers.quality_assurance.quality_assurance_page import QualityAssurancePage
-from page_objects.main_page import MainPage
-from selenium.webdriver.support import expected_conditions as ec
+
+from Insider_BK_project.page_objects.careers.careers_page import CareersPage
+from Insider_BK_project.page_objects.careers.open_positions.open_positions_page import OpenPositionsPage
+from Insider_BK_project.page_objects.careers.quality_assurance.quality_assurance_page import QualityAssurancePage
+from Insider_BK_project.page_objects.main_page import MainPage
 
 
 class TestInsiderScenarios:

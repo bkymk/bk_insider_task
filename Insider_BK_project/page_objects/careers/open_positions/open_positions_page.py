@@ -2,8 +2,8 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
-from page_objects.careers.careers_page import CareersPage
+from selenium.webdriver.support import expected_conditions as EC
+from Insider_BK_project.page_objects.careers.careers_page import CareersPage
 
 
 class OpenPositionsPage(CareersPage):
@@ -35,7 +35,7 @@ class OpenPositionsPage(CareersPage):
         self.driver = driver
 
     def open_o_positions_page(self):
-        self._open_url(self.__url)
+        self.open_url(self.__url)
 
     @property
     def expected_url(self) -> str:
@@ -56,13 +56,13 @@ class OpenPositionsPage(CareersPage):
 
     def getting_location_actual_combo_set(self):
         WebDriverWait(self.driver, 5).until(
-            ec.visibility_of_element_located(self.__location_list))
+            EC.visibility_of_element_located(self.__location_list))
         list_element = self.driver.find_element(*self.__location_list)
         return set(list_element.text.split("\n"))
 
     def getting_department_actual_combo_set(self):
         WebDriverWait(self.driver, 5).until(
-            ec.visibility_of_element_located(self.__department_list))
+            EC.visibility_of_element_located(self.__department_list))
         list_element = self.driver.find_element(*self.__department_list)
         return set(list_element.text.split("\n"))
 
@@ -70,15 +70,15 @@ class OpenPositionsPage(CareersPage):
         locator = (By.XPATH, f".//*[@class='select2-results__option' and text()='{option}']")
         self.driver.find_element(*locator).click()
         WebDriverWait(self.driver, 5).until(
-            ec.invisibility_of_element_located(self.__location_list))
+            EC.invisibility_of_element_located(self.__location_list))
 
     def wait_until_qa_department_op(self):
         wait = WebDriverWait(self.driver, 10)
-        wait.until(ec.text_to_be_present_in_element_attribute(self.__department_filter, "title", "Quality Assurance"))
+        wait.until(EC.text_to_be_present_in_element_attribute(self.__department_filter, "title", "Quality Assurance"))
 
     def getting_listed_jobs(self):
         WebDriverWait(self.driver, 5).until(
-            ec.presence_of_element_located(self.__job_list_loc))
+            EC.presence_of_element_located(self.__job_list_loc))
         job_list_element = self.driver.find_element(*self.__job_list_loc)
         listed_jobs_elements = job_list_element.find_elements(By.CLASS_NAME, "position-list-item")
         listed_jobs = []
@@ -131,7 +131,7 @@ class OpenPositionsPage(CareersPage):
         actions.move_to_element(first_job_element).perform()
         view_role_element = first_job_element.find_element(By.CLASS_NAME, "btn")
         WebDriverWait(self.driver, 5).until(
-            ec.element_to_be_clickable(view_role_element))
+            EC.element_to_be_clickable(view_role_element))
         view_role_element.click()
 
     def switch_to_view_role(self):

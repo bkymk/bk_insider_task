@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from page_objects.base_page import BasePage
+from Insider_BK_project.page_objects.base_page import BasePage
 
 
 class CareersPage(BasePage):
@@ -13,17 +13,17 @@ class CareersPage(BasePage):
         self.driver = driver
 
     def open_careers_page(self):
-        self._open_url(self.__url)
+        self.open_url(self.__url)
 
     @property
     def expected_url(self) -> str:
         return self.__url
 
     def is_locations_blocks_displayed(self) -> bool:
-        return self._is_displayed(self.__locations_block)
+        return self.is_displayed(self.__locations_block)
 
     def is_teams_blocks_displayed(self) -> bool:
-        return self._is_displayed(self.__teams_block)
+        return self.is_displayed(self.__teams_block)
 
     def is_life_blocks_displayed(self) -> bool:
-        return self._is_displayed(self.__life_at_insider_block)
+        return self.is_displayed(self.__life_at_insider_block)

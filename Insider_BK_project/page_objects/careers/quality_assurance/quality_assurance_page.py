@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from page_objects.base_page import BasePage
+from Insider_BK_project.page_objects.base_page import BasePage
 
 
 class QualityAssurancePage(BasePage):
@@ -12,7 +12,7 @@ class QualityAssurancePage(BasePage):
         self.driver = driver
 
     def open_qa_page(self):
-        self._open_url(self.__url)
+        self.open_url(self.__url)
 
     @property
     def expected_url(self) -> str:
