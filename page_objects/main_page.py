@@ -1,58 +1,58 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from Insider_BK_project.page_objects.base_page import BasePage
+from page_objects.base_page import BasePage
 
 
 class MainPage(BasePage):
-    __url = "https://useinsider.com/"
-    __navbar = (By.ID, "navbarNavDropdown")
-    __navbar_dropdowns = (By.CLASS_NAME, "navbar-nav")
-    __navbar_options = (By.XPATH, ".//*[@class='nav-item dropdown']")
-    __pop_up_close_button = (By.CLASS_NAME, "ins-close-button")
-    __dropdown_sub = (By.CLASS_NAME, "dropdown-sub")
-    __presented_nav_bar_item = (By.XPATH, ".//*[@class='nav-item dropdown show']")
-    __expected_nav_bar_set = {"Why Insider", "Platform", "Solutions", "Customers", "Resources", "Company"}
-    __expected_company_tab_set = {"About Us", "Newsroom", "Partnerships", "Integrations", "Careers", "Contact Us"}
+    URL = "https://useinsider.com/"
+    NAVBAR = (By.ID, "navbarNavDropdown")
+    NAVBAR_DROPDOWNS = (By.CLASS_NAME, "navbar-nav")
+    NAVBAR_OPTIONS = (By.XPATH, ".//*[@class='nav-item dropdown']")
+    POP_UP_CLOSE_BUTTON = (By.CLASS_NAME, "ins-close-button")
+    DROPDOWN_SUB = (By.CLASS_NAME, "dropdown-sub")
+    PRESENTED_NAV_BAR_ITEM = (By.XPATH, ".//*[@class='nav-item dropdown show']")
+    EXPECTED_NAV_BAR_SET = {"Why Insider", "Platform", "Solutions", "Customers", "Resources", "Company"}
+    EXPECTED_COMPANY_TAB_SET = {"About Us", "Newsroom", "Partnerships", "Integrations", "Careers", "Contact Us"}
 
     def __int__(self, driver: WebDriver):
         self.driver = driver
 
     def open_main_page(self):
-        self.open_url(self.__url)
+        self.open_url(self.URL)
 
     @property
     def expected_url(self) -> str:
-        return self.__url
+        return self.URL
 
     @property
     def expected_nav_bar_set(self) -> set:
-        return self.__expected_nav_bar_set
+        return self.EXPECTED_NAV_BAR_SET
 
     @property
     def expected_company_dropdown_menu_set(self) -> set:
-        return self.__expected_company_tab_set
+        return self.EXPECTED_COMPANY_TAB_SET
 
-    def getting_nav_bar_text_and_clicking_option(self, option: str) -> set:
-        nav_bar_element = self.driver.find_element(*self.__navbar_dropdowns)
-        nav_bar_all_elements = nav_bar_element.find_elements(*self.__navbar_options)
-        nav_bar_all_elements.pop(-1)
+    def getting_nav_bar_text_and_clicking_option(self, option: str | None = None) -> set:
+        nav_bar_element = self.driver.find_element(*self.NAVBAR_DROPDOWNS)
+        nav_bar_all_elements = nav_bar_element.find_elements(*self.NAVBAR_OPTIONS)
         nav_bar_set = set()
-        target = None
-        for i, each_element in enumerate(nav_bar_all_elements):
+        # Last element of navbar changing every run son last one is discarded
+        for each_element in nav_bar_all_elements[:-1]:
             nav_bar_set.add(each_element.text)
-            if nav_bar_all_elements[i].text == option:
-                target = i
-        nav_bar_all_elements[target].click()
-        return nav_bar_set
+            if option is not None and each_element.text == option:
+                each_element.click()
+                break
+        else:
+            return nav_bar_set
 
-    def getting_dropdown_menu_and_clicking_option(self, option: str) -> set:
-        dropdown_sub_elements = self.driver.find_element(*self.__presented_nav_bar_item).find_elements(
-            *self.__dropdown_sub)
+    def getting_dropdown_menu_and_clicking_option(self, option: str | None = None) -> set:
+        dropdown_sub_elements = self.driver.find_element(*self.PRESENTED_NAV_BAR_ITEM).find_elements(
+            *self.DROPDOWN_SUB)
         presented_dropdown_menu_set = set()
-        target = None
-        for i, dropdown_sub_element in enumerate(dropdown_sub_elements):
+        for dropdown_sub_element in dropdown_sub_elements:
             presented_dropdown_menu_set.add(dropdown_sub_element.text)
-            if dropdown_sub_elements[i].text == option:
-                target = i
-        dropdown_sub_elements[target].click()
-        return presented_dropdown_menu_set
+            if option is not None and dropdown_sub_element.text == option:
+                dropdown_sub_element.click()
+                break
+        else:
+            return presented_dropdown_menu_set

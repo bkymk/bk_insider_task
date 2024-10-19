@@ -1,9 +1,10 @@
-from selenium.common import NoSuchElementException
+from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
+# BasePage class includes common methods for all pages to use
 class BasePage:
     def __init__(self, driver: WebDriver):
         self.driver = driver
@@ -26,5 +27,8 @@ class BasePage:
             WebDriverWait(self.driver, 5).until(
                 EC.url_contains(url))
             return True
-        except:
+        except TimeoutException:
             return False
+
+    def page_has_loaded(self):
+        return self.driver.execute_script("return jQuery.active == 0")
